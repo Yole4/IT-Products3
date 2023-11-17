@@ -26,6 +26,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { PublicContext } from '../../context/PublicContext';
 import { backendUrl } from '../../utils/Services';
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { AdminContext } from '../../context/AdminContext';
 
 function Home() {
   const navigate = useNavigate();
@@ -50,6 +51,8 @@ function Home() {
   } = useContext(AuthContext); // require auth context
 
   const { categoryList, publicLoading, productListToSearch, homeSearch, setHomeSearch } = useContext(PublicContext);
+
+  const { settingsData } = useContext(AdminContext);
 
   const [isErrorResponse, setIsErrorResponse] = useState(false);
 
@@ -267,11 +270,11 @@ function Home() {
         <ul className="navbar-nav">
 
           <li className="nav-item" style={{ marginTop: '-7px' }}>
-            <a className="nav-link"><img src={logo} style={{ width: '40px', height: '40px', borderRadius: '50%' }} alt="" /></a>
+            <a className="nav-link"><img src={settingsData && `${backendUrl}/${settingsData.image}`} style={{ width: '40px', height: '40px', borderRadius: '50%' }} alt="" /></a>
           </li>
 
           <li className="nav-item d-sm-inline-block" style={{ marginLeft: '-20px' }}>
-            <span style={{ cursor: 'pointer' }} className="nav-link">IT Products</span>
+            <span style={{ cursor: 'pointer' }} className="nav-link">{settingsData && settingsData.title}</span>
           </li>
 
         </ul>
@@ -877,7 +880,7 @@ function Home() {
 
               {placeOrderData.eachAmount?.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', marginTop: '10px' }}>
-                  <div style={{display: 'flex', gap: '5px'}}>
+                  <div style={{ display: 'flex', gap: '5px' }}>
                     <span>{placeOrderData.productInfo[index]}</span>
                     <span>(x{placeOrderData.quantity[index]})</span>
                   </div>
